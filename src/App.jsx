@@ -11,7 +11,17 @@ export function App() {
   const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15);
   const [timerActive, setTimerActive] = useState(false);
-  const [timer, setTimer] = useState(null);
+
+  // Timer effect
+  useEffect(() => {
+    let timer;
+    if (timerActive && timeLeft > 0 && quizStarted && !showResult) {
+      timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    } else if (timeLeft === 0 && quizStarted && !showResult) {
+      handleTimeUp();
+    }
+    return () => clearTimeout(timer);
+  }, [timeLeft, timerActive, quizStarted, showResult]);
 
   function handleTimeUp() {
     setSelectedAnswer("timeup");
@@ -22,35 +32,6 @@ export function App() {
         finishQuiz();
       }
     }, 1500);
-  }
-
-  function startTimer() {
-    if (timer) clearTimeout(timer);
-    
-    const newTimer = setTimeout(() => {
-      if (timeLeft > 1) {
-        setTimeLeft(timeLeft - 1);
-      } else {
-        handleTimeUp();
-      }
-    }, 1000);
-    
-    setTimer(newTimer);
-  }
-
-  function stopTimer() {
-    if (timer) {
-      clearTimeout(timer);
-      setTimer(null);
-    }
-  }
-
-  if (timerActive && !timer) {
-    startTimer();
-  }
-
-  if (!timerActive && timer) {
-    stopTimer();
   }
 
   async function getQuizQuestions() {
@@ -116,7 +97,7 @@ export function App() {
     setTimerActive(false);
   }
 
-  const progress = mcqs.length > 0 ? ((currentQuestionIndex ) / mcqs.length) * 100: 0;
+  const progress = mcqs.length > 0 ? ((currentQuestionIndex) / mcqs.length) * 100 : 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-800 text-white flex items-center justify-center p-4">
@@ -160,8 +141,8 @@ export function App() {
               <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg">
                 <i className="fas fa-question-circle text-white text-6xl"></i>
               </div>
-              <h2 className="text-2xl font-bold mb-4">Welcome to BrainyQuiz!</h2>
-              <p className="text-white/80 mb-8">Challenge yourself with 10 questions from various topics. Can you score 100%?</p>
+              <h2 className="text-2xl font-bold mb-4">Welcome to QuizMaster!</h2>
+              <p className="text-white/80 mb-8">Challenge yourself with 20 questions from various topics. Can you score 100%?</p>
               <button 
                 onClick={getQuizQuestions}
                 className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
@@ -197,7 +178,7 @@ export function App() {
                 onAnswer={handleAnswer}
                 selectedAnswer={selectedAnswer}
                 timeUp={timeLeft === 0}
-                questionId={currentQuestionIndex} // Pass current question index as ID
+                questionId={currentQuestionIndex}
               />
 
               
@@ -217,21 +198,37 @@ export function App() {
           
           {showResult && (
             <div className="text-center py-8">
-              {score >= 50 ? (
+              {score >= 100 ? (
                 <div className="animate-bounce">
                   <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center shadow-lg">
                     <i className="fas fa-trophy text-white text-5xl"></i>
                   </div>
-                  <h2 className="text-2xl font-bold mb-2">Congratulations!</h2>
+                  <h2 className="text-2xl font-bold mb-2">Excellent!</h2>
                   <p className="text-white/80 mb-4">You scored <span className="text-emerald-300 font-bold text-3xl">{score}</span> points</p>
+                </div>
+              ) : score >= 70 ? (
+                <div className="animate-bounce">
+                  <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
+                    <i className="fas fa-star text-white text-5xl"></i>
+                  </div>
+                  <h2 className="text-2xl font-bold mb-2">Great Job!</h2>
+                  <p className="text-white/80 mb-4">You scored <span className="text-blue-300 font-bold text-3xl">{score}</span> points</p>
+                </div>
+              ) : score >= 50 ? (
+                <div>
+                  <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
+                    <i className="fas fa-award text-white text-5xl"></i>
+                  </div>
+                  <h2 className="text-2xl font-bold mb-2">Good Effort!</h2>
+                  <p className="text-white/80 mb-4">You scored <span className="text-amber-300 font-bold text-3xl">{score}</span> points</p>
                 </div>
               ) : (
                 <div>
-                  <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
+                  <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 flex items-center justify-center shadow-lg">
                     <i className="fas fa-redo text-white text-5xl"></i>
                   </div>
-                  <h2 className="text-2xl font-bold mb-2">Good Try!</h2>
-                  <p className="text-white/80 mb-4">You scored <span className="text-amber-300 font-bold text-3xl">{score}</span> points</p>
+                  <h2 className="text-2xl font-bold mb-2">Keep Trying!</h2>
+                  <p className="text-white/80 mb-4">You scored <span className="text-rose-300 font-bold text-3xl">{score}</span> points</p>
                 </div>
               )}
               
@@ -248,8 +245,8 @@ export function App() {
         </div>
 
         
-        <div className="bg-black/20 py-4 text-center text-white/70 text-sm">
-          <p>Powered by QuizMaster APP • Develped By Shayan Sheikh • All Right Reserved &reg;</p>
+        <div className="bg-black/20 py-4 text-center text-white/70 text-md ">
+          <p>Powered by QuizMaster APP • Developed By Shayan Sheikh • All Right Reserved &reg;</p>
         </div>
       </div>
     </div>
