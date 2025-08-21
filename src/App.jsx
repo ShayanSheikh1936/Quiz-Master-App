@@ -57,7 +57,7 @@ export function App() {
     setLoading(true);
     try {
       const data = await fetch(
-        "https://opentdb.com/api.php?amount=500&category=9&difficulty=easy&type=multiple"
+        "https://opentdb.com/api.php?amount=20&category=9&difficulty=easy&type=multiple"
       );
       const questions = await data.json();
       setMcqs(questions.results);
@@ -116,13 +116,12 @@ export function App() {
     setTimerActive(false);
   }
 
-  // Calculate progress percentage
-  const progress = mcqs.length > 0 ? ((currentQuestionIndex + 1) / mcqs.length) * 100 : 0;
+  const progress = mcqs.length > 0 ? ((currentQuestionIndex ) / mcqs.length) * 100: 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-800 text-white flex items-center justify-center p-4">
       <div className="w-full max-w-2xl bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/20">
-        {/* Header */}
+        
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-center">
           <h1 className="text-3xl md:text-4xl font-bold flex items-center justify-center gap-2">
             <i className="fas fa-brain mr-2"></i> QuizMaster
@@ -131,7 +130,7 @@ export function App() {
         </div>
 
         <div className="p-6 md:p-8">
-          {/* Progress Bar */}
+         
           {quizStarted && mcqs.length > 0 && (
             <div className="mb-8">
               <div className="flex justify-between text-sm mb-2">
@@ -147,7 +146,7 @@ export function App() {
             </div>
           )}
 
-          {/* Loading State */}
+          
           {loading && (
             <div className="flex flex-col items-center justify-center py-16">
               <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -155,7 +154,7 @@ export function App() {
             </div>
           )}
 
-          {/* Welcome Screen */}
+          
           {!quizStarted && !showResult && !loading && (
             <div className="text-center py-8">
               <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg">
@@ -172,7 +171,7 @@ export function App() {
             </div>
           )}
 
-          {/* Quiz Screen */}
+          
           {quizStarted && !loading && mcqs.length > 0 && (
             <>
               {/* Timer */}
@@ -186,12 +185,12 @@ export function App() {
                 </div>
               </div>
 
-              {/* Question */}
+              
               <div className="bg-white/10 p-6 rounded-xl mb-6 shadow-md">
                 <h2 className="text-xl font-semibold" dangerouslySetInnerHTML={{ __html: mcqs[currentQuestionIndex]?.question }} />
               </div>
 
-              {/* Answer Options */}
+             
               <Options
                 correctAnswer={mcqs[currentQuestionIndex]?.correct_answer}
                 incorrectAnswers={mcqs[currentQuestionIndex]?.incorrect_answers}
@@ -201,7 +200,7 @@ export function App() {
                 questionId={currentQuestionIndex} // Pass current question index as ID
               />
 
-              {/* Next Button */}
+              
               <div className="flex justify-end mt-8">
                 <button 
                   onClick={selectedAnswer || timeLeft === 0 ? nextQuestion : undefined}
@@ -215,7 +214,7 @@ export function App() {
             </>
           )}
 
-          {/* Results Screen */}
+          
           {showResult && (
             <div className="text-center py-8">
               {score >= 50 ? (
@@ -250,7 +249,7 @@ export function App() {
 
         
         <div className="bg-black/20 py-4 text-center text-white/70 text-sm">
-          <p>Powered by QuizMaster APP • Develped By Shayan Sheikh All Right Reserved &reg;</p>
+          <p>Powered by QuizMaster APP • Develped By Shayan Sheikh • All Right Reserved &reg;</p>
         </div>
       </div>
     </div>

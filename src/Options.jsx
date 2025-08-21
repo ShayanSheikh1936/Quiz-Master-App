@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 
 export function Options({ correctAnswer, incorrectAnswers, onAnswer, selectedAnswer, timeUp, questionId }) {
-  // Use useMemo to regenerate options only when questionId changes
+ 
   const options = useMemo(() => {
     if (correctAnswer && incorrectAnswers) {
       const allOptions = [...incorrectAnswers, correctAnswer];
-      // Shuffle options
+      
       return allOptions.sort(() => Math.random() - 0.5);
     }
     return [];
