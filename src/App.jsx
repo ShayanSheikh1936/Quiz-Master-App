@@ -105,7 +105,7 @@ export function App() {
         
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-center">
           <h1 className="text-3xl md:text-4xl font-bold flex items-center justify-center gap-2">
-            <i className="fas fa-brain mr-2"></i> QuizMaster
+            <i className="fa-brands fa-think-peaks "></i> Quizify
           </h1>
           <p className="mt-2 opacity-90">Test your knowledge with our engaging quiz</p>
         </div>
@@ -141,7 +141,7 @@ export function App() {
               <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg">
                 <i className="fas fa-question-circle text-white text-6xl"></i>
               </div>
-              <h2 className="text-2xl font-bold mb-4">Welcome to QuizMaster!</h2>
+              <h2 className="text-2xl font-bold mb-4">Welcome to Quizify!</h2>
               <p className="text-white/80 mb-8">Challenge yourself with 20 questions from various topics. Can you score 100%?</p>
               <button 
                 onClick={getQuizQuestions}
@@ -246,7 +246,7 @@ export function App() {
 
         
         <div className="bg-black/20 py-4 text-center text-white/70 text-md ">
-          <p>Powered by QuizMaster APP • Developed By Shayan Sheikh • All Right Reserved &reg;</p>
+          <p>Powered by Quizify APP • Developed By Shayan Sheikh • All Right Reserved &reg;</p>
         </div>
       </div>
     </div>
